@@ -1,0 +1,101 @@
+#include<stdio.h>
+#include<string.h>
+
+struct macro
+{
+ char opc[10];
+ char op1[10];
+ char op2[10];
+ char op3[10];
+};
+
+struct MNT
+{
+ char name[10];
+ int ind;
+};
+
+struct PNTAB
+{
+ char par[10];
+ int indp;
+};
+
+void main()
+{
+ int i,j,k;
+ struct macro m[20];
+ struct MNT mnt[20];
+ struct PNTAB pnt[20];
+
+ i=0;
+
+ do
+ {
+   printf("Enter opcode ");
+   scanf("%s",&m[i].opc);
+   printf("Enter operand 1 ");
+   scanf("%s",&m[i].op1);  
+   printf("Enter operand 2 ");
+   scanf("%s",&m[i].op2);
+   printf("Enter oprand 3 ");
+   scanf("%s",&m[i].op3);
+   i++;
+ }while(strcmp(m[i-1].opc,"MEND")!=0);
+ 
+
+ i=0;
+ printf("MACRO entered is:");
+ do
+ {
+   printf("\n%s\t%s\t%s\t%s",m[i].opc,m[i].op1,m[i].op2,m[i].op3);
+   i++;
+ }while(strcmp(m[i-1].opc,"MEND")!=0);
+
+ i=0;
+ j=0;
+ do
+ {
+   if(strcmp(m[i].opc,"MACRO")==0)
+   {
+     strcpy(mnt[j].name,m[i+1].opc);
+     mnt[j].ind=j;
+     j++;
+   } 
+   i++;
+ }while(strcmp(m[i-1].opc,"MEND")!=0);
+
+ i=0; 
+ k=0; 
+ do
+ {
+   if(strcmp(m[i].opc,"MACRO")==0)
+   {
+     strcpy(pnt[k].par,m[i+1].op1);
+     pnt[k].indp=k; 
+     k++;
+     strcpy(pnt[k].par,m[i+1].op2);
+     pnt[k].indp=k; 
+     k++;
+     strcpy(pnt[k].par,m[i+1].op3);
+     pnt[k].indp=k; 
+     k++;
+  }
+  i++; 
+ }while(strcmp(m[i-1].opc,"MEND")!=0);
+
+ printf("\n \n MNT :");
+ printf("\nIndex \t Name");
+ for(i=0;i<j;i++)
+ {
+   printf("\n%d \t%s",mnt[i].ind,mnt[i].name);	
+ }
+
+ printf("\n \n PNTAB :");
+ printf("\nIndex \t Parameter");
+ for(i=0;i<k;i++)
+ {
+   printf("\n%d \t%s",pnt[i].indp,pnt[i].par);	
+ }
+   
+}

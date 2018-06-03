@@ -1,0 +1,78 @@
+#include<stdio.h>
+#include<stdlib.h>
+
+struct process
+{
+  char name[2];
+  int ET,WT,CT,TAT;
+};
+
+void main()
+{
+  int i,j,n=0;
+  float sum1,sum2,mean1,mean2;
+  struct process s[10],temp;
+
+  printf("Enter the no of processes");
+  scanf("%d",&n);
+  
+  for(i=0;i<n;i++)
+  {
+    printf("\n Enter the name of %dth process:",i+1);
+	fflush(stdin);
+    scanf("%s",&s[i].name);
+    printf("\n Enter the execution time of %dth process",i+1);
+    scanf("%d",&s[i].ET);
+  }
+
+  printf("\n Name \t ET");
+  for(i=0;i<n;i++)
+  {
+    printf("\n %s \t %d",s[i].name,s[i].ET);
+  }
+
+  for(i=0;i<(n-1);i++)
+  {
+     for(j=0;j<(n-1);j++)
+     {
+        if(s[j].ET>s[j+1].ET)
+        {
+           temp=s[j];
+           s[j]=s[j+1];
+           s[j+1]=temp;
+        }
+     }
+  }
+
+  printf("\n The sorted list is:");
+  for(i=0;i<n;i++)
+  {
+    printf("\n %s \t %d",s[i].name,s[i].ET);
+  }
+
+  s[0].WT=0;
+  s[0].TAT=s[0].CT=s[0].ET;
+
+  for(i=1;i<n;i++)
+  {
+    s[i].WT=s[i-1].ET;
+    s[i].TAT=s[i].CT=s[i-1].ET+s[i].ET;
+  }
+  
+  printf("\n The output table is:");
+  printf("\n Name \t ET \t WT \t TAT");
+  for(i=0;i<n;i++)
+  {
+    printf("\n %s \t %d \t %d \t %d",s[i].name,s[i].ET,s[i].WT,s[i].TAT);
+  }
+
+  for(i=1;i<n;i++)
+  {
+    sum1=sum1+s[i].TAT;
+    sum2=sum2+s[i].WT;
+  }
+  mean1=sum1/n;
+  mean2=sum2/n;
+  printf("\n The average of WT is: %f",mean2);
+  printf("\n The average of TAT is: %f",mean1);
+}

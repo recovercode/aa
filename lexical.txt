@@ -1,0 +1,62 @@
+#include<stdio.h>
+#include<string.h>
+int main()
+{
+char array1[3]={'+',';','='};
+char input1[10];
+int i;
+int m;
+int n;
+int p=0;
+int q=0;
+char op[10];
+char id[10];
+int temp;
+printf("\nEnter no. elements");
+scanf("%d",&m);
+printf("\nEnter the expression");
+for(i=0;i<m;i++)
+{
+scanf("%s",&input1[i]);
+}
+printf("\nEntered expression is\t");
+for(i=0;i<m;i++)
+{
+	printf("%c\t",input1[i]);
+}
+
+for(i=0;i<m;i++)
+{
+	
+temp=0;	
+for(n=0;n<3;n++)
+{
+if (input1[i]!=array1[n])
+{
+ temp=temp+1;
+}
+}
+if(temp==3)
+{
+id[q]=input1[i];
+q++;
+}
+else
+{
+	op[p]=input1[i];
+	p++;
+}
+}
+
+printf("\noperators\t");
+for(i=0;i<p;i++)
+{
+printf("%c\t",op[i]);
+}
+printf("\nidentifiers\t");
+for(i=0;i<q;i++)
+{
+printf("%c\t",id[i]);
+}
+
+}

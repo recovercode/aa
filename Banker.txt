@@ -1,0 +1,90 @@
+#include<stdio.h>
+
+void disp(int m,int n,int a[10][10])
+{
+  int i,j;
+  for(i=0;i<m;i++)
+    { 
+     for(j=0;j<n;j++)
+       {
+         printf("%d \t",a[i][j]);
+        }
+       printf("\n");
+    } 
+ }
+ 
+void main()
+{
+  int m,n,i,j,flag,k=0;
+  int alloc[10][10],need[10][10],max[10][10],avail[10],sstate[10];
+  printf("Enter number of processes");
+  scanf("%d",&m);
+  printf("Enter number of resources ");
+  scanf("%d",&n);
+  printf("Enter Allocation matrix ");
+     for(i=0;i<m;i++)
+       {
+         for(j=0;j<n;j++)
+            {
+             printf("Allocation[%d][%d]=",i,j);
+             scanf("%d",&alloc[i][j]);
+            }
+       }
+printf("Allocation matrix is \n");
+disp(m,n,alloc);
+  printf("Enter Maximum resource matrix");
+     for(i=0;i<m;i++)
+       {
+         for(j=0;j<n;j++)
+            {
+             printf("Max[%d][%d]=",i,j);
+             scanf("%d",&max[i][j]);
+            }
+       }
+printf("Maximum matrix is \n");
+disp(m,n,max);
+ 
+     for(i=0;i<m;i++)
+       {
+         for(j=0;j<n;j++)
+            {
+             need[i][j]=max[i][j]-alloc[i][j]; 
+            }       
+       }
+printf("Need Matrix is\n");
+disp(m,n,need);
+
+
+ printf("Enter Available array ");
+     for(i=0;i<n;i++)
+       {
+        scanf("%d",&avail[i]);
+       }
+for(i=0;i<m;i++)
+  {
+  	flag=0;
+     for(j=0;j<n;j++)
+       { 
+        if(avail[j]>=need[i][j])
+          {
+            flag++;
+               if(flag==n)
+                 {
+                     for(j=0;j<n;j++)
+                     {
+                      avail[j]=avail[j]+alloc[i][j];
+                      need[i][j]=0;
+                     }
+                    sstate[k]=i+1;
+                    k++; 
+                 }                 
+          }
+       }
+     
+  } 
+  
+ printf("Safe State Sequence is");
+ for(i=0;i<m;i++)
+ printf("P%d, ",sstate[i]);
+}
+

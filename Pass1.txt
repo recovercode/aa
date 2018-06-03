@@ -1,0 +1,142 @@
+#include<stdio.h>
+#include<string.h>
+
+void processcode(char a[10]);
+int check_AD(char a[10]);
+int check_IS(char a[10]);
+int check_DS(char a[10]);
+
+
+struct asm1
+{
+ char label[10];
+ char mne[10];
+ char op1[10];
+ char op2[10];
+};
+
+struct ICcode
+{
+ char type[10];
+ int opcode;
+}ic[20];
+
+void main()
+{
+ int i,j,x,d;
+ char b[10];
+ struct asm1 prog[20];
+ //struct ICcode ic[20];
+ 
+ i=0;
+ do
+ {
+   printf("Enter Label");
+   scanf("%s",&prog[i].label);
+   printf("Enter Mneumonic");
+   scanf("%s",&prog[i].mne);
+   printf("Enter Operand 1");
+   scanf("%s",&prog[i].op1);
+   printf("Enter Operand 2");
+   scanf("%s",&prog[i].op2);
+   i++;
+ }while(strcmp(prog[i-1].mne,"END")!=0);
+
+ printf("\n\n Assembly  code is :");
+ i=0;
+ do
+ { printf("\n");
+   if(strcmp(prog[i].label,"NULL")!=0)
+   printf("%s",prog[i].label);
+   printf("\t%s",prog[i].mne);
+   if(strcmp(prog[i].op1,"NULL")!=0)
+   printf("\t%s",prog[i].op1);
+   if(strcmp(prog[i].op2,"NULL")!=0)
+   printf("\t%s",prog[i].op2);
+   i++;
+ }while(strcmp(prog[i-1].mne,"END")!=0);
+
+ i=0;
+ j=0;
+ do
+ {
+  
+  d=check_IS(prog[i].mne);
+  if(d!=-1)
+  {
+    strcpy(ic[j].type,"IS");
+    ic[j].opcode=d;
+    j++;
+  }
+  else
+  {
+    d=check_AD(prog[i].mne);
+    if(d!=-1)
+    {
+      strcpy(ic[j].type,"AD");
+      ic[j].opcode=d;
+      j++;
+    } 
+    else
+    {
+      d=check_DS(prog[i].mne);
+      if(d!=-1)
+      {
+        strcpy(ic[j].type,"DS");
+        ic[j].opcode=d;
+        j++;
+      } 
+    }
+  }
+ 
+   i++;
+ }while(strcmp(prog[i-1].mne,"END")!=0);
+
+ printf("\n \nIntermediate code is :");
+ j=0;
+ do
+ {
+   printf("\n(%s,%d) ",ic[j].type,ic[j].opcode);
+  if(strcmp(prog[j].op1,"NULL")!=0)
+  printf(" \t %s",prog[j].op1);
+  if(strcmp(prog[j].op2,"NULL")!=0)
+  printf(" \t %s",prog[j].op2);
+   j++;
+ }while(strcmp(prog[j-1].mne,"END")!=0);
+
+}
+
+
+
+
+int check_IS(char a[10])
+ {
+  if(strcmp(a,"MOVER")==0)
+  return(4);
+  else if(strcmp(a,"ADD")==0)
+  return(9);
+  else if(strcmp(a,"MOVEM")==0)
+  return(5);
+  else
+  return(-1);
+ }
+
+int check_AD(char a[10])
+ {
+  if(strcmp(a,"START")==0)
+  return(1);
+  else if(strcmp(a,"END")==0)
+  return(2);
+  else
+  return(-1);
+ }
+ 
+int check_DS(char a[10])
+ {
+  if(strcmp(a,"DC")==0)
+  return(1);
+  else if(strcmp(a,"DS")==0)
+  return(2);
+  else
+  return(-1);
+ }
